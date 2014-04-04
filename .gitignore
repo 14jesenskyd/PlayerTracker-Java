@@ -15,3 +15,6 @@ hs_err_pid*
 *.iml
 .idea/
 target/
+
+#Link to my github from project folder for easy access
+Github.lnk
