@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <name>Player Tracker</name>
+    <artifactId>PlayerTracker</artifactId>
+    <groupId>me.danjesensky</groupId>
+    <inceptionYear>2014</inceptionYear>
+    <version>1.0-SNAPSHOT</version>
+
+    <licenses>
+        <license>
+            <name>Artistic License 2.0</name>
+            <url>https://github.com/14jesenskyd/Player-Tracker/blob/master/LICENSE</url>
+        </license>
+    </licenses>
+
+    <build>
+        <sourceDirectory>src/main/java</sourceDirectory>
+        <testSourceDirectory>src/test/java</testSourceDirectory>
+    </build>
+</project>
