@@ -17,4 +17,13 @@
         <directory>target</directory>
         <outputDirectory>${basedir}/target</outputDirectory>
     </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>me.jesensky.dan</groupId>
+            <artifactId>playertracker-common</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
 </project>
