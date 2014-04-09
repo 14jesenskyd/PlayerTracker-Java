@@ -3,7 +3,6 @@ package me.jesensky.dan.playertracker;
 import me.jesensky.dan.playertracker.forms.ServerGUI;
 import me.jesensky.dan.playertracker.net.Connection;
 
-import javax.swing.*;
 import java.net.InetAddress;
 import java.util.HashMap;
 
@@ -33,7 +32,7 @@ public class Server {
     public static void main(String[] args){
         Server singleton = new Server();
         ServerGUI gui = new ServerGUI();
-        singleton.getConnectionManager().addConnectionListener((evt) -> gui.setConnections(singleton.getConnectionManager().getConnections().size()));
+        singleton.getConnectionManager().registerConnectionListener((evt) -> gui.setConnections(singleton.getConnectionManager().getConnections().size()));
     }
 
     public HashMap<InetAddress, Connection> getConnections(){
