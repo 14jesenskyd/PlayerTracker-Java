@@ -41,4 +41,8 @@ public class Configuration implements Serializable {
     public boolean containsKey(String s){
         return this.values.containsKey(s);
     }
+
+    public String toString(){
+        return "Configuration@"+super.hashCode()+"[size="+this.values.size()+"]";
+    }
 }
