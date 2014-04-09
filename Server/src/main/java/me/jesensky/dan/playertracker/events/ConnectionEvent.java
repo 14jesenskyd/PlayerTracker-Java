@@ -1,24 +1,28 @@
 package me.jesensky.dan.playertracker.events;
 
+import me.jesensky.dan.playertracker.TimeUtils;
 import me.jesensky.dan.playertracker.net.Connection;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
-/**
- * Created by 14jesenskyd on 4/9/2014.
- */
 public class ConnectionEvent {
     private Connection connection;
-    private Calendar calendar;
+    private String time;
 
-    public ConnectionEvent(Connection c, Calendar cal) {
+    public ConnectionEvent(Connection c, String timeFormat) {
         this.connection = c;
-        this.calendar = cal;
+        this.time = TimeUtils.getTime(timeFormat);
     }
 
     public ConnectionEvent(Connection c) {
-        this(c, Calendar.getInstance());
+        this(c, "dd MM yyyy");
+    }
+
+    public String getTimestamp(){
+        return this.time;
+    }
+
+    public Connection getConnection(){
+        return this.connection;
     }
 }
