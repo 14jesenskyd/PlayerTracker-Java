@@ -63,4 +63,9 @@ public abstract class Connection implements Closeable {
     public void close() throws IOException {
         this.sock.close();
     }
+
+    @Override
+    public String toString(){
+        return this.sock.toString();
+    }
 }
