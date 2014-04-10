@@ -74,4 +74,11 @@ public class TestConfiguration {
         Assert.assertEquals(83.3336, configuration.<Double>getValue("1"), 1);
         new File("test").delete();
     }
+
+    @Test
+    public void loadDefault() throws IOException, NoSuchKeyException {
+        Configuration configuration = new Configuration();
+        Assert.assertEquals(5, (int)configuration.<Integer>getValue("toads%", 5));
+        Assert.assertEquals("T", configuration.<String>getValue("toads", "T"));
+    }
 }
