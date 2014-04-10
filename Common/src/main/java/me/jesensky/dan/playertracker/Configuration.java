@@ -9,6 +9,11 @@ public class Configuration implements Serializable {
     private static final long serialVersionUID = 16632074508205L;
     private HashMap<String, Object> values;
 
+    public Configuration(){
+        super();
+        this.values = new HashMap<>();
+    }
+
     public static void save(String filename, Configuration clazz) throws IOException {
         ObjectOutputStream o = new ObjectOutputStream(new FileOutputStream(filename));
         o.writeObject(clazz);
@@ -29,7 +34,7 @@ public class Configuration implements Serializable {
     }
 
     public <E> E getValue(String key) throws NoSuchKeyException {
-        if(this.containsKey(key))
+        if(!this.containsKey(key))
             throw new NoSuchKeyException();
         return (E) this.values.get(key);
     }
@@ -42,6 +47,7 @@ public class Configuration implements Serializable {
         return this.values.containsKey(s);
     }
 
+    @Override
     public String toString(){
         return "Configuration@"+super.hashCode()+"[size="+this.values.size()+"]";
     }
