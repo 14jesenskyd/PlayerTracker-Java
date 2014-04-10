@@ -4,8 +4,8 @@ import me.jesensky.dan.playertracker.TimeUtils;
 import me.jesensky.dan.playertracker.net.Connection;
 
 public class ConnectionEvent {
-    private Connection connection;
-    private String time;
+    private final Connection connection;
+    private final String time;
 
     public ConnectionEvent(Connection c, String timeFormat) {
         this.connection = c;
