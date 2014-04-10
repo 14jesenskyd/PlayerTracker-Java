@@ -6,6 +6,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+import java.io.UnsupportedEncodingException;
+
 @RunWith(JUnit4.class)
 public class TestPacket {
     @Test
@@ -24,5 +26,13 @@ public class TestPacket {
     public void ammendedData() throws InvalidPacketException {
         Packet packet = new Packet(PacketType.LOGIN, new byte[]{3, 4, 6, 3, 1, 6});
         Assert.assertArrayEquals(packet.getAmmendedData(), new byte[]{1, 0, 1, 3, 4, 6, 3, 1, 6});
+    }
+
+    @Test
+    public void ensureNoBytesMatchDataSeparator() throws UnsupportedEncodingException{
+        byte[] bytes = "asdfghjkl;'zxcvbnm,./][poiuytrewq\\+_-=)0(9*&^%$#@!~`12345678{}|:\"<>?".getBytes("UTF-8");
+        for(byte b : bytes)
+            if(b == 0)
+                Assert.fail();
     }
 }
