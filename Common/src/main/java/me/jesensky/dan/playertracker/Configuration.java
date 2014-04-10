@@ -11,20 +11,30 @@ public class Configuration implements Serializable {
 
     public Configuration(){
         super();
-        this.values = new HashMap<>();
+        this.values = new HashMap<String, Object>();
     }
 
     public static void save(String filename, Configuration clazz) throws IOException {
-        ObjectOutputStream o = new ObjectOutputStream(new FileOutputStream(filename));
+        FileOutputStream f;
+        ObjectOutputStream o = new ObjectOutputStream(f = new FileOutputStream(filename));
         o.writeObject(clazz);
+        f.close();
+        o.close();
     }
 
     public static Configuration load(String filename) throws IOException {
+        ObjectInputStream i = null;
+        FileInputStream f = null;
         try {
-            ObjectInputStream i = new ObjectInputStream(new FileInputStream(filename));
+            i = new ObjectInputStream(f = new FileInputStream(filename));
             return ((Configuration) i.readObject());
         } catch (ClassNotFoundException e) {
             //there's no real possible way for this to occur, so ignore it
+        }finally{
+            if(i != null)
+                i.close();
+            if (f != null)
+                f.close();
         }
         return null;
     }

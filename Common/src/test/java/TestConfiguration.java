@@ -20,7 +20,7 @@ public class TestConfiguration {
         configuration = Configuration.load("test");
         Assert.assertEquals(51252, (int) configuration.getValue("toads"));
         Assert.assertEquals(9999, (int) configuration.getValue("1"));
-        new File("toads").delete();
+        new File("test").delete();
     }
 
     @Test
@@ -32,7 +32,7 @@ public class TestConfiguration {
         configuration = Configuration.load("test");
         Assert.assertEquals("how many toads?", configuration.<String>getValue("toads%"));
         Assert.assertEquals("so many toads", configuration.<String>getValue("toads"));
-        new File("toads").delete();
+        new File("test").delete();
     }
 
     @Test
@@ -60,7 +60,7 @@ public class TestConfiguration {
         Assert.assertArrayEquals(l1.toArray(), ((List<Object>) configuration.getValue("list1")).toArray());
         Assert.assertArrayEquals(l2.toArray(), ((List<Object>) configuration.getValue("list2")).toArray());
 
-        new File("toads").delete();
+        new File("test").delete();
     }
 
     @Test
@@ -72,18 +72,6 @@ public class TestConfiguration {
         configuration = Configuration.load("test");
         Assert.assertEquals(84510.2152, configuration.<Double>getValue("toads"), 1);
         Assert.assertEquals(83.3336, configuration.<Double>getValue("1"), 1);
-        new File("toads").delete();
-    }
-
-    @Test
-    public void streamsClosed() throws IOException, NoSuchKeyException {
-        Configuration configuration = new Configuration();
-        Configuration.save("test", configuration);
-        if(!new File("toads").delete());
-            Assert.fail("Failed to delete; save stream is not closed");
-        Configuration.save("test", configuration);
-        configuration = Configuration.load("test");
-        if(!new File("toads").delete());
-            Assert.fail("Failed to delete; load stream is not closed");
+        new File("test").delete();
     }
 }
