@@ -1,6 +1,8 @@
 package me.jesensky.dan.playertracker.net;
 
 import me.jesensky.dan.playertracker.exceptions.InvalidArgumentException;
+import me.jesensky.dan.playertracker.exceptions.InvalidPacketException;
+import me.jesensky.dan.playertracker.net.packets.Packet;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -33,7 +35,7 @@ public abstract class Connection implements Closeable {
             this.sock.sendUrgentData(z);
     }
 
-    public abstract void readData();
+    public abstract Packet readData() throws IOException, InvalidPacketException;
 
     public boolean dataRemaining() throws IOException {
         return this.getInputStream().available() != 0;
