@@ -14,7 +14,7 @@ public class Packet {
         this.data = data;
     }
 
-    public PacketType getType(){
+    public PacketType getType() {
         return this.type;
     }
 
@@ -22,7 +22,7 @@ public class Packet {
         sock.getOutputStream().write(this.getAmmendedData());
     }
 
-    public byte[] getAmmendedData(){
+    public byte[] getAmmendedData() {
         byte[] sigma = new byte[this.data.length + this.type.getHeader().length];
         System.arraycopy(this.type.getHeader(), 0, sigma, 0, this.type.getHeader().length);
         System.arraycopy(this.data, 0, sigma, this.type.getHeader().length, this.data.length);
@@ -30,10 +30,10 @@ public class Packet {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         String s = "Packet@" + super.hashCode() + "{";
-        for(byte b : this.getAmmendedData())
-            s += b+", ";
-        return s.substring(0, s.length()-2)+"}";
+        for (byte b : this.getAmmendedData())
+            s += b + ", ";
+        return s.substring(0, s.length() - 2) + "}";
     }
 }

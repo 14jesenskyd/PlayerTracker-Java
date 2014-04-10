@@ -14,9 +14,11 @@ public interface ConnectionListener {
      * a read exception occurs <b>initially upon acceptance</b>, then
      * the event will not fire.<br />
      * <br />
-     * Implementations should be sure to call {@link me.jesensky.dan.playertracker.ConnectionManager#registerConnectionListener(ConnectionListener)}
+     * Implementations should be sure to call
+     * {@link me.jesensky.dan.playertracker.ConnectionManager#registerConnectionListener(ConnectionListener)}
      *
-     * @param evt The {@code ConnectionEvent} which shall contain information about the event fired.
+     * @param evt The {@code ConnectionEvent} which shall contain
+     *            information about the event fired.
      */
     public void onConnectEvent(ConnectionEvent evt);
 }

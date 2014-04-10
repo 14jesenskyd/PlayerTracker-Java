@@ -3,8 +3,6 @@ package me.jesensky.dan.playertracker.events;
 import me.jesensky.dan.playertracker.TimeUtils;
 import me.jesensky.dan.playertracker.net.Connection;
 
-import java.util.Calendar;
-
 public class ConnectionEvent {
     private Connection connection;
     private String time;
@@ -18,11 +16,11 @@ public class ConnectionEvent {
         this(c, "dd MM yyyy");
     }
 
-    public String getTimestamp(){
+    public String getTimestamp() {
         return this.time;
     }
 
-    public Connection getConnection(){
+    public Connection getConnection() {
         return this.connection;
     }
 }

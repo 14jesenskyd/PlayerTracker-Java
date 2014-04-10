@@ -23,6 +23,6 @@ public class TestPacket {
     @Test
     public void ammendedData() throws InvalidPacketException {
         Packet packet = new Packet(PacketType.LOGIN, new byte[]{3, 4, 6, 3, 1, 6});
-        Assert.assertArrayEquals(packet.getAmmendedData(), new byte[]{1,0,1,3,4,6,3,1,6});
+        Assert.assertArrayEquals(packet.getAmmendedData(), new byte[]{1, 0, 1, 3, 4, 6, 3, 1, 6});
     }
 }

@@ -6,7 +6,7 @@ import me.jesensky.dan.playertracker.net.Connection;
 import java.net.Socket;
 
 public class ClientConnection extends Connection {
-    public ClientConnection(Socket sock) throws InvalidArgumentException{
+    public ClientConnection(Socket sock) throws InvalidArgumentException {
         super(sock);
     }
 

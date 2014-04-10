@@ -7,7 +7,9 @@ import org.junit.runners.JUnit4;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 @RunWith(JUnit4.class)
 public class TestConfiguration {
@@ -78,7 +80,7 @@ public class TestConfiguration {
     @Test
     public void loadDefault() throws IOException, NoSuchKeyException {
         Configuration configuration = new Configuration();
-        Assert.assertEquals(5, (int)configuration.<Integer>getValue("toads%", 5));
+        Assert.assertEquals(5, (int) configuration.<Integer>getValue("toads%", 5));
         Assert.assertEquals("T", configuration.<String>getValue("toads", "T"));
     }
 }

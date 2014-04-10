@@ -33,7 +33,7 @@ public class Configuration implements Serializable {
      *
      * @see #load(String)
      */
-    public Configuration(){
+    public Configuration() {
         super();
         this.values = new HashMap<String, Object>();
     }
@@ -44,9 +44,9 @@ public class Configuration implements Serializable {
      * UID {@code 16632074508205}.
      *
      * @param filename The file to save to.
-     * @param clazz The {@code Configuration} instance to save using.
+     * @param clazz    The {@code Configuration} instance to save using.
      * @throws IOException When a {@code FileOutputStream} or
-     * {@code ObjectOutputStream} either cannot be instantiated or fail to write.
+     *                     {@code ObjectOutputStream} either cannot be instantiated or fail to write.
      */
     public static void save(String filename, Configuration clazz) throws IOException {
         FileOutputStream f;
@@ -58,13 +58,13 @@ public class Configuration implements Serializable {
 
     /**
      * Deserialization is based on the UID {@code 16632074508205}.
+     *
      * @param filename The file to load a {@code Configuration}
      *                 instance from.
      * @return The instance of {@code Configuration} which was
      * loaded.
-     *
      * @throws IOException If the file cannot be found, or is
-     * already being used.
+     *                     already being used.
      */
     public static Configuration load(String filename) throws IOException {
         ObjectInputStream i = null;
@@ -74,8 +74,8 @@ public class Configuration implements Serializable {
             return ((Configuration) i.readObject());
         } catch (ClassNotFoundException e) {
             //there's no real possible way for this to occur, so ignore it
-        }finally{
-            if(i != null)
+        } finally {
+            if (i != null)
                 i.close();
             if (f != null)
                 f.close();
@@ -88,17 +88,15 @@ public class Configuration implements Serializable {
      * instance's value listing. If the key does not exist, the given
      * {@code defaultVal} will be returned instead.
      *
-     * @param key The key to retrieve the value of
-     *
+     * @param key        The key to retrieve the value of
      * @param defaultVal The value to return if the given {@code key}
      *                   does not exist
-     * @param <E> The expected type of the returned value
-     *
+     * @param <E>        The expected type of the returned value
      * @return The value stored at {@code key}, if it exists; otherwise,
      * {@code defaultVal} will be returned.
      */
     public <E> E getValue(String key, E defaultVal) {
-        return this.containsKey(key) ? (E)this.values.get(key) : defaultVal;
+        return this.containsKey(key) ? (E) this.values.get(key) : defaultVal;
     }
 
     /**
@@ -112,7 +110,7 @@ public class Configuration implements Serializable {
      * @throws NoSuchKeyException If the given {@code key} does not exist.
      */
     public <E> E getValue(String key) throws NoSuchKeyException {
-        if(!this.containsKey(key))
+        if (!this.containsKey(key))
             throw new NoSuchKeyException();
         return (E) this.values.get(key);
     }
@@ -122,9 +120,9 @@ public class Configuration implements Serializable {
      * parity of values should be one-to-one, this will cause any existing
      * value at the location of {@code key} to be overwritten.
      *
-     * @param key The key to put the {@code value} at.
+     * @param key   The key to put the {@code value} at.
      * @param value The value to put at the {@code key}'s location.
-     * @param <E> The type of the {@code value}.
+     * @param <E>   The type of the {@code value}.
      */
     public <E> void setValue(String key, E value) {
         this.values.put(key, value);
@@ -138,7 +136,7 @@ public class Configuration implements Serializable {
      * @return {@code true} if the key is present and represents a value;
      * {@code false} otherwise.
      */
-    public boolean containsKey(String key){
+    public boolean containsKey(String key) {
         return this.values.containsKey(key);
     }
 
@@ -146,7 +144,7 @@ public class Configuration implements Serializable {
      * {@inheritDoc}
      */
     @Override
-    public String toString(){
-        return "Configuration@"+super.hashCode()+"[size="+this.values.size()+"]";
+    public String toString() {
+        return "Configuration@" + super.hashCode() + "[size=" + this.values.size() + "]";
     }
 }

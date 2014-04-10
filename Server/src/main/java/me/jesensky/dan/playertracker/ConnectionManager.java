@@ -14,27 +14,27 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class ConnectionManager extends Thread{
+public class ConnectionManager extends Thread {
     private HashMap<InetAddress, Connection> connections;
     private ServerSocket socket;
     private boolean accepting;
     private List<ConnectionListener> listeners;
 
-    public ConnectionManager(){
+    public ConnectionManager() {
         super();
         this.connections = new HashMap<>();
         this.listeners = new ArrayList<ConnectionListener>();
     }
 
-    public HashMap<InetAddress, Connection> getConnections(){
+    public HashMap<InetAddress, Connection> getConnections() {
         return this.connections;
     }
 
-    public Connection getConnection(InetSocketAddress addr){
+    public Connection getConnection(InetSocketAddress addr) {
         return this.connections.get(addr.getAddress());
     }
 
-    public Connection getConnection(InetAddress addr){
+    public Connection getConnection(InetAddress addr) {
         return this.connections.get(addr);
     }
 
@@ -53,8 +53,8 @@ public class ConnectionManager extends Thread{
      * @return The ID of the listener.
      * @see #unregisterConnectionListener(int)
      */
-    public int registerConnectionListener(ConnectionListener listener){
-        if(!this.listeners.contains(listener)) {
+    public int registerConnectionListener(ConnectionListener listener) {
+        if (!this.listeners.contains(listener)) {
             this.listeners.add(listener);
         }
         return this.listeners.indexOf(listener);
@@ -69,8 +69,8 @@ public class ConnectionManager extends Thread{
      *
      * @param id The id to remove.
      */
-    public void unregisterConnectionListener(int id){
-        if(id < 0 || id >= this.listeners.size())
+    public void unregisterConnectionListener(int id) {
+        if (id < 0 || id >= this.listeners.size())
             return;
         this.listeners.set(id, null);
     }
@@ -79,22 +79,23 @@ public class ConnectionManager extends Thread{
      * {@inheritDoc}
      */
     @Override
-    public void run(){
-        while(this.accepting){
+    public void run() {
+        while (this.accepting) {
             try {
                 Socket sock = this.socket.accept();
                 ClientConnection conn = new ClientConnection(sock);
                 this.connections.put(sock.getInetAddress(), conn);
                 this.updateConnectionListeners(new ConnectionEvent(conn));
-            }catch(IOException | InvalidArgumentException e){
+            } catch (IOException | InvalidArgumentException e) {
                 //TODO log exception
             }
         }
         super.run();
     }
-    private void updateConnectionListeners(ConnectionEvent evt){
-        for(ConnectionListener listener : this.listeners){
-            if(listener != null)
+
+    private void updateConnectionListeners(ConnectionEvent evt) {
+        for (ConnectionListener listener : this.listeners) {
+            if (listener != null)
                 listener.onConnectEvent(evt);
         }
     }
@@ -103,7 +104,7 @@ public class ConnectionManager extends Thread{
      * {@inheritDoc}
      */
     @Override
-    public String toString(){
-        return "ConnectionManager@"+super.hashCode()+"[connections="+this.connections.size()+"]";
+    public String toString() {
+        return "ConnectionManager@" + super.hashCode() + "[connections=" + this.connections.size() + "]";
     }
 }

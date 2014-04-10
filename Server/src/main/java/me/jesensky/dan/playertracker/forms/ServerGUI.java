@@ -8,9 +8,8 @@ import java.awt.*;
 public class ServerGUI extends JFrame {
     private JLabel lblConnections;
     private JButton btnShowAllConnections;
-    private FontMetrics metrics;
+    private transient FontMetrics metrics;
 
-    @SuppressWarnings("magicnumber")
     public ServerGUI() {
         super("Player Tracker Server");
         super.setSize(500, 500);
@@ -38,11 +37,11 @@ public class ServerGUI extends JFrame {
         this.metrics = super.getFontMetrics(new Font("Dialog", Font.BOLD, 12));
         t = "Show All Connections...";
         this.btnShowAllConnections = new JButton(t);
-        this.btnShowAllConnections.setSize(this.metrics.stringWidth(t)+36, this.metrics.getHeight()+2);
+        this.btnShowAllConnections.setSize(this.metrics.stringWidth(t) + 36, this.metrics.getHeight() + 2);
         this.btnShowAllConnections.setLocation(this.lblConnections.getX() + this.lblConnections.getWidth(), this.lblConnections.getY());
         this.btnShowAllConnections.setEnabled(false);
         this.btnShowAllConnections.addActionListener((evt) -> {
-            if(Server.getSingleton().getConnections().isEmpty())
+            if (Server.getSingleton().getConnections().isEmpty())
                 JOptionPane.showMessageDialog(this, "No connections exist to view.", "No Connections", JOptionPane.ERROR_MESSAGE);
             else
                 super.add(new ConnectionListGUI());
@@ -52,12 +51,12 @@ public class ServerGUI extends JFrame {
         super.setVisible(true);
     }
 
-    public void setConnections(int amount){
+    public void setConnections(int amount) {
         String f = String.format("%,.0d", amount);
         this.lblConnections.setText(f);
-        this.lblConnections.setSize(this.metrics.stringWidth(f)+6, this.lblConnections.getHeight());
+        this.lblConnections.setSize(this.metrics.stringWidth(f) + 6, this.lblConnections.getHeight());
         this.btnShowAllConnections.setLocation(this.lblConnections.getX() + this.lblConnections.getWidth(), this.lblConnections.getY());
-        if(amount == 0)
+        if (amount == 0)
             this.btnShowAllConnections.setEnabled(false);
         else
             this.btnShowAllConnections.setEnabled(true);

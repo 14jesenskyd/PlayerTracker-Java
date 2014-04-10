@@ -15,7 +15,7 @@ public abstract class Connection implements Closeable {
 
     public Connection(Socket sock) throws InvalidArgumentException {
         super();
-        if(sock == null || sock.isClosed())
+        if (sock == null || sock.isClosed())
             throw new InvalidArgumentException("Provided socket may not be null or closed!");
         this.sock = sock;
     }
@@ -29,7 +29,7 @@ public abstract class Connection implements Closeable {
     }
 
     public void sendUrgentData(int... i) throws IOException {
-        for(int z : i)
+        for (int z : i)
             this.sock.sendUrgentData(z);
     }
 
@@ -39,23 +39,23 @@ public abstract class Connection implements Closeable {
         return this.getInputStream().available() != 0;
     }
 
-    public InetAddress getAddress(){
+    public InetAddress getAddress() {
         return this.sock.getInetAddress();
     }
 
-    public String getIP(){
+    public String getIP() {
         return this.sock.getInetAddress().getHostAddress();
     }
 
-    public int getPort(){
+    public int getPort() {
         return this.sock.getPort();
     }
 
-    public InetSocketAddress getSocketAddress(){
+    public InetSocketAddress getSocketAddress() {
         return new InetSocketAddress(this.getAddress(), this.getPort());
     }
 
-    public boolean isClosed(){
+    public boolean isClosed() {
         return this.sock.isClosed();
     }
 
@@ -65,7 +65,7 @@ public abstract class Connection implements Closeable {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return this.sock.toString();
     }
 }
