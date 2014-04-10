@@ -1,6 +1,7 @@
 package me.jesensky.dan.playertracker.net.packets;
 
 import me.jesensky.dan.playertracker.exceptions.InvalidPacketException;
+import me.jesensky.dan.playertracker.net.Connection;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -21,6 +22,10 @@ public class Packet {
 
     public void sendData(Socket sock) throws IOException {
         sock.getOutputStream().write(this.getAmmendedData());
+    }
+
+    public void sendData(Connection conn) throws IOException{
+        conn.getOutputStream().write(this.getAmmendedData());
     }
 
     public byte[] getAmmendedData() {
