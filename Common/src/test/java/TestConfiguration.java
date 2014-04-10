@@ -76,22 +76,14 @@ public class TestConfiguration {
     }
 
     @Test
-    public void n4() throws IOException, NoSuchKeyException {
-        Configuration configuration = new Configuration();
-        configuration.setValue("toads", 51252);
-        Configuration.save("test", configuration);
-        configuration = Configuration.load("test");
-        Assert.assertEquals(51252, (int) configuration.getValue("toads"));
-        new File("toads").delete();
-    }
-
-    @Test
     public void streamsClosed() throws IOException, NoSuchKeyException {
         Configuration configuration = new Configuration();
         Configuration.save("test", configuration);
-        new File("toads").delete();
+        if(!new File("toads").delete());
+            Assert.fail("Failed to delete; save stream is not closed");
         Configuration.save("test", configuration);
         configuration = Configuration.load("test");
-        new File("toads").delete();
+        if(!new File("toads").delete());
+            Assert.fail("Failed to delete; load stream is not closed");
     }
 }
