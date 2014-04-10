@@ -10,6 +10,7 @@ public class Packet {
     private byte[] data;
 
     public Packet(PacketType type, byte... data) throws InvalidPacketException {
+        super();
         this.type = type;
         this.data = data;
     }
