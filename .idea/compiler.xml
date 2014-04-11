@@ -27,6 +27,12 @@
         <module name="Server" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="Client" target="1.8" />
+      <module name="Common" target="1.8" />
+      <module name="PlayerTracker" target="1.8" />
+      <module name="Server" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>
 
