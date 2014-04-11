@@ -1,4 +1,4 @@
-/*import me.jesensky.dan.playertracker.exceptions.InvalidPacketException;
+import me.jesensky.dan.playertracker.exceptions.InvalidPacketException;
 import me.jesensky.dan.playertracker.net.packets.Packet;
 import me.jesensky.dan.playertracker.net.packets.PacketType;
 import org.junit.Assert;
@@ -35,4 +35,4 @@ public class TestPacket {
             if(b == 0)
                 Assert.fail();
     }
-}*/
+}
