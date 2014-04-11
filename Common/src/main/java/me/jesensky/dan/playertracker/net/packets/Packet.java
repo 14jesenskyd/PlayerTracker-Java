@@ -24,7 +24,7 @@ public class Packet {
         sock.getOutputStream().write(this.getAmmendedData());
     }
 
-    public void sendData(Connection conn) throws IOException{
+    public void sendData(Connection conn) throws IOException {
         conn.getOutputStream().write(this.getAmmendedData());
     }
 

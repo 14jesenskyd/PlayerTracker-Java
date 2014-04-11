@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ClientConnection extends Connection {
+    public String uuid;
+
     public ClientConnection(Socket sock) throws InvalidArgumentException {
         super(sock);
     }
@@ -20,7 +22,7 @@ public class ClientConnection extends Connection {
     @Override
     public Packet readData() throws IOException, InvalidPacketException{
         byte[] header = new byte[3];
-        List<Byte> data = new ArrayList<>();
+        List<Byte> data = new ArrayList<Byte>();
         PacketType type;
 
         if(super.getInputStream().read(header) < 3)
@@ -31,5 +33,10 @@ public class ClientConnection extends Connection {
             data.add((byte)super.getInputStream().read());
 
         return new Packet(type, NetUtils.byteListToArray(data));
+    }
+
+    @Override
+    public String toString(){
+        return "ClientConnection@"+super.hashCode()+"["+this.uuid+"]";
     }
 }
