@@ -2,9 +2,13 @@ package me.jesensky.dan.playertracker.net.packets;
 
 import me.jesensky.dan.playertracker.exceptions.InvalidPacketException;
 import me.jesensky.dan.playertracker.net.Connection;
+import me.jesensky.dan.playertracker.net.NetUtils;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class Packet {
     private PacketType type;
@@ -41,5 +45,28 @@ public class Packet {
         for (byte b : this.getAmmendedData())
             s += b + ", ";
         return s.substring(0, s.length() - 2) + "}";
+    }
+
+    public byte[] getDataSection(int section){
+        List<Byte> r = new ArrayList<Byte>();
+        int z = 0;
+
+        for(int i = 0; i < section; i++) {
+            int index = 0;
+            boolean t = true;
+
+            while (t) {
+                if(this.data[index++] == (byte)0x0){
+                    t = false;
+                    r.clear();
+                    for(int x = 0; x < this.data.length-index-1; x++){
+                        if(this.data[index] == 0x0)
+                            break;
+                        r.add(this.data[index++]);
+                    }
+                }
+            }
+        }
+        return NetUtils.byteListToArray(r);
     }
 }
