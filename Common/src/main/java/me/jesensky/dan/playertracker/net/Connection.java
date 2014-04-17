@@ -3,6 +3,7 @@ package me.jesensky.dan.playertracker.net;
 import me.jesensky.dan.playertracker.exceptions.InvalidArgumentException;
 import me.jesensky.dan.playertracker.exceptions.InvalidPacketException;
 import me.jesensky.dan.playertracker.net.packets.Packet;
+import me.jesensky.dan.playertracker.net.packets.PacketType;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -11,8 +12,10 @@ import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
-public abstract class Connection implements Closeable {
+public class Connection implements Closeable {
     protected Socket sock;
 
     public Connection(Socket sock) throws InvalidArgumentException {
@@ -35,7 +38,20 @@ public abstract class Connection implements Closeable {
             this.sock.sendUrgentData(z);
     }
 
-    public abstract Packet readData() throws IOException, InvalidPacketException;
+    public Packet readData() throws IOException, InvalidPacketException {
+        byte[] header = new byte[3];
+        List<Byte> data = new ArrayList<Byte>();
+        PacketType type;
+
+        if (this.getInputStream().read(header) < 3)
+            throw new InvalidPacketException("Packet header was too short.");
+        type = PacketType.getTypeFromHeader(header);
+
+        while (this.dataRemaining())
+            data.add((byte) this.getInputStream().read());
+
+        return new Packet(type, NetUtils.byteListToArray(data));
+    }
 
     public boolean dataRemaining() throws IOException {
         return this.getInputStream().available() != 0;

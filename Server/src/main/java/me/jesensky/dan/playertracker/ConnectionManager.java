@@ -83,7 +83,7 @@ public class ConnectionManager extends Thread {
         while (this.accepting) {
             try {
                 Socket sock = this.socket.accept();
-                ClientConnection conn = new ClientConnection(sock);
+                Connection conn = new Connection(sock);
                 this.connections.put(sock.getInetAddress(), conn);
                 this.updateConnectionListeners(new ConnectionEvent(conn));
             } catch (IOException | InvalidArgumentException e) {
