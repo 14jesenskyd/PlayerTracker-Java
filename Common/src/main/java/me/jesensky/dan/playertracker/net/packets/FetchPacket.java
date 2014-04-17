@@ -1,6 +1,7 @@
 package me.jesensky.dan.playertracker.net.packets;
 
 import me.jesensky.dan.playertracker.exceptions.InvalidPacketException;
+import me.jesensky.dan.playertracker.net.NetUtils;
 import me.jesensky.dan.playertracker.net.packets.PacketType;
 
 public class FetchPacket extends Packet{
@@ -9,6 +10,6 @@ public class FetchPacket extends Packet{
     }
 
     public String getName(){
-        return "";
+        return NetUtils.bytesToString(super.getDataSection(0));
     }
 }
