@@ -49,22 +49,26 @@ public class Packet {
 
     public byte[] getDataSection(int section){
         List<Byte> r = new ArrayList<Byte>();
-        int z = 0, index = 0;
+        int iteration = 0, index = 0;
+        boolean t = false;
 
-        for(int i = -1; i < section; i++) {
-            boolean t = true;
-
-            while (t) {
-                if(this.data[index++] == (byte)0x0 || (section == 0 && i == -1)){
-                    t = false;
-                    r.clear();
-                    for(int x = index; x < this.data.length-index-1; x++){
-                        if(this.data[x] == 0x0)
-                            break;
-                        r.add(this.data[x]);
+        while(!t){
+            if(this.data[index] == 0)
+                iteration++;
+            if(iteration == section){
+                if(section != 0)
+                    index++;
+                while(!t && index < this.data.length){
+                    if(this.data[index] == (byte)0x0){
+                        t = true;
+                    }else{
+                        r.add(this.data[index++]);
                     }
+                    if(this.data.length == index)
+                        t = true;
                 }
             }
+            index++;
         }
         return NetUtils.byteListToArray(r);
     }
