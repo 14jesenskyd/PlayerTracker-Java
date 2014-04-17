@@ -5,9 +5,11 @@ import me.jesensky.dan.playertracker.net.Connection;
 import me.jesensky.dan.playertracker.util.DatabaseManager;
 
 import javax.xml.crypto.Data;
+import javax.xml.transform.Result;
 import java.beans.Statement;
 import java.net.InetAddress;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 
@@ -31,13 +33,22 @@ public class Server {
             this.dbMan = new DatabaseManager("::1", 1533, "root", "root", "playertracker_test");
             this.dbMan.connect();
 
+            ResultSet r;
             PreparedStatement s = this.dbMan.prepareStatement("SELECT * FROM information_schema.tables WHERE table_schema = 'playertracker' AND table_name = 'players' LIMIT 1;");
             s.execute();
             s.close();
+            r = s.getResultSet();
+            if(!r.first()){
+                //TODO create table
+            }
 
             s = this.dbMan.prepareStatement("SELECT * FROM information_schema.tables WHERE table_schema = 'playertracker' AND table_name = 'users' LIMIT 1;");
             s.execute();
             s.close();
+            r = s.getResultSet();
+            if(!r.first()){
+                //TODO create table
+            }
         }catch(SQLException e){
             //TODO log exception
         }
