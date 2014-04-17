@@ -23,19 +23,6 @@ public class DatabaseManager {
         this.db = db;
     }
 
-    public void connect(String defaults, String... args) throws SQLException{
-        this.connect();
-        PreparedStatement statement = this.connection.prepareStatement(defaults);
-        for(int x = 0; x < args.length; x++)
-            try {
-                statement.setInt(x, Integer.parseInt(args[x]));
-            }catch(NumberFormatException e){
-                statement.setString(x, args[x]);
-            }
-        statement.execute();
-        statement.close();
-    }
-
     public void connect() throws SQLException{
         MysqlDataSource d = new MysqlDataSource();
         d.setUser(this.username);
