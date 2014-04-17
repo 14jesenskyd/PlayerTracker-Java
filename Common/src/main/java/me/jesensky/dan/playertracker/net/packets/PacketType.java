@@ -8,7 +8,7 @@ public enum PacketType {
     LOGIN(new byte[]{0x1, 0x0, 0x1}),
     LOGIN_RESPONSE(new byte[]{0x1, 0x0, 0x2}),
     FETCH_DATA(new byte[]{0x1, 0x0, 0x3}),
-    SEND_DATA(new byte[]{0x1, 0x0, 0x4}),
+    DATA_RESPONSE(new byte[]{0x1, 0x0, 0x4}),
     ;
 
     PacketType(byte... data) {
