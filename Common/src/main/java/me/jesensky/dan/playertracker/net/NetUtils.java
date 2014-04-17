@@ -38,7 +38,7 @@ public final class NetUtils {
         return null;
     }
 
-    public static String byteToString(byte[] b){
+    public static String bytesToString(byte[] b){
         try{
             return new String(b, "UTF-8");
         }catch(UnsupportedEncodingException e){
