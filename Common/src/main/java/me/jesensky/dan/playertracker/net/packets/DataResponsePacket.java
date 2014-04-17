@@ -4,6 +4,6 @@ import me.jesensky.dan.playertracker.exceptions.InvalidPacketException;
 
 public class DataResponsePacket extends Packet{
     public DataResponsePacket(byte... data) throws InvalidPacketException{
-        super(PacketType.SEND_DATA, data);
+    super(PacketType.DATA_RESPONSE, data);
     }
 }
