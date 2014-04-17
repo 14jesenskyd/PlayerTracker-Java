@@ -20,12 +20,37 @@ public class ConnectionManager extends Thread {
     private boolean accepting;
     private List<ConnectionListener> listeners;
 
+    /**
+     * Instantiates a new {@code ConnectionManager}.<br />
+     * <br />
+     * {@code ConnectionManager} is a subclass of {@link java.lang.Thread},
+     * and should be treated with care upon accessing any members.<br />
+     * <br />
+     * Given the purpose of the class, queries should be wary of
+     * thread-safety with whatever actions they may perform.
+     */
     public ConnectionManager() {
         super();
         this.connections = new HashMap<>();
         this.listeners = new ArrayList<ConnectionListener>();
     }
 
+    /**
+     * Gets all of the currently live connections to the {@code Server}
+     * singleton.<br />
+     * <br />
+     * Currently, the result is stored in a {@code HashMap}, ordered by
+     * {@code InetAddress}es, which could lead to issues if more than one
+     * person connects via the same ethernet uplink.<br />
+     * <br />
+     * As such, this implementation is volatile and subject to change at
+     * any time, and is likely to do so in the future (likely to
+     * {@code List}).
+     *
+     * @return A {@code HashMap} of all {@code Connection}s to the
+     * {@code Server} singleton. Subject to change and should not
+     * be relied upon.
+     */
     public HashMap<InetAddress, Connection> getConnections() {
         return this.connections;
     }
@@ -93,6 +118,16 @@ public class ConnectionManager extends Thread {
         super.run();
     }
 
+    /**
+     * Calls {@link me.jesensky.dan.playertracker.listeners.ConnectionListener#onConnectEvent(me.jesensky.dan.playertracker.events.ConnectionEvent)}
+     * for all {@code ConnectionListener}s registered to
+     * this {@code ConnectionManager}. This method requires a
+     * {@code ConnectionEvent} instance to pass to each
+     * listener thereof.
+     *
+     * @param evt The {@code ConnectionEvent} to pass to each
+     *            {@code ConnectionListener}.
+     */
     private void updateConnectionListeners(ConnectionEvent evt) {
         for (ConnectionListener listener : this.listeners) {
             if (listener != null)
