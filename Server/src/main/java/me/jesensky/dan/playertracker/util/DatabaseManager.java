@@ -11,19 +11,15 @@ public class DatabaseManager {
     private String host;
     private String username;
     private String password;
-    private String table;
     private String db;
     private int port;
-    public static final String PLAYER_DB_DEFAULT = "SELECT * FROM information_schema.tables WHERE table_schema = '?' AND table_name = 'players' LIMIT 1;";
-    public static final String USER_DB_DEFAULT = "SELECT * FROM information_schema.tables WHERE table_schema = '?' AND table_name = 'users' LIMIT 1;";
 
-    public DatabaseManager(String host, int port, String user, String password, String db, String table) throws SQLException {
+    public DatabaseManager(String host, int port, String user, String password, String db) throws SQLException {
         super();
         this.host = host;
         this.port = port;
         this.username = user;
         this.password = password;
-        this.table = table;
         this.db = db;
     }
 
