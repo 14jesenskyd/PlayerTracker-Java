@@ -2,6 +2,7 @@ package me.jesensky.dan.playertracker.net;
 
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
@@ -33,6 +34,15 @@ public final class NetUtils {
             return s.getBytes("UTF-8");
         }catch(UnsupportedEncodingException e){
             //if your computer does not have UTF-8, there's something severely wrong with it, or you're running windows 95.
+        }
+        return null;
+    }
+
+    public static String byteToString(byte[] b){
+        try{
+            return new String(b, "UTF-8");
+        }catch(UnsupportedEncodingException e){
+            //stop running windows 95
         }
         return null;
     }
