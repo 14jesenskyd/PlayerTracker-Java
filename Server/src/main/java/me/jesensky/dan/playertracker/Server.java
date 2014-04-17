@@ -2,13 +2,19 @@ package me.jesensky.dan.playertracker;
 
 import me.jesensky.dan.playertracker.forms.ServerGUI;
 import me.jesensky.dan.playertracker.net.Connection;
+import me.jesensky.dan.playertracker.util.DatabaseManager;
 
+import javax.xml.crypto.Data;
+import java.beans.Statement;
 import java.net.InetAddress;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.HashMap;
 
 public class Server {
     private static Server singletonInstance;
     private ConnectionManager connectionManager;
+    private DatabaseManager dbMan;
 
     static {
         singletonInstance = null;
@@ -19,6 +25,22 @@ public class Server {
         this.connectionManager = new ConnectionManager();
         this.connectionManager.start();
         this.loadConfiguration();
+        try {
+            //TODO replace hard-coded test data with actual configuration
+
+            this.dbMan = new DatabaseManager("::1", 1533, "root", "root", "playertracker_test");
+            this.dbMan.connect();
+
+            PreparedStatement s = this.dbMan.prepareStatement("SELECT * FROM information_schema.tables WHERE table_schema = 'playertracker' AND table_name = 'players' LIMIT 1;");
+            s.execute();
+            s.close();
+
+            s = this.dbMan.prepareStatement("SELECT * FROM information_schema.tables WHERE table_schema = 'playertracker' AND table_name = 'users' LIMIT 1;");
+            s.execute();
+            s.close();
+        }catch(SQLException e){
+            //TODO log exception
+        }
     }
 
     public static Server getSingleton() {
@@ -29,6 +51,10 @@ public class Server {
 
     public ConnectionManager getConnectionManager() {
         return this.connectionManager;
+    }
+
+    public DatabaseManager getDbManager(){
+        return this.dbMan;
     }
 
     public static void main(String[] args) {
