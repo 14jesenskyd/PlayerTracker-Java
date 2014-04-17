@@ -41,6 +41,7 @@ public class Server {
             if(!r.first()){
                 //TODO create table
             }
+            r.close();
 
             s = this.dbMan.prepareStatement("SELECT * FROM information_schema.tables WHERE table_schema = 'playertracker' AND table_name = 'users' LIMIT 1;");
             s.execute();
@@ -49,6 +50,7 @@ public class Server {
             if(!r.first()){
                 //TODO create table
             }
+            r.close();
         }catch(SQLException e){
             //TODO log exception
         }
