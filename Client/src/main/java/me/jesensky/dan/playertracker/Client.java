@@ -1,12 +1,22 @@
 package me.jesensky.dan.playertracker;
 
+import me.jesensky.dan.playertracker.exceptions.InvalidArgumentException;
 import me.jesensky.dan.playertracker.net.Connection;
 import me.jesensky.dan.playertracker.util.Logger;
+
+import javax.swing.*;
+import java.io.IOException;
+import java.net.Socket;
 
 public class Client {
     private static Client client;
     private Logger logger;
     private Connection connection;
+
+    private Client() throws IOException{
+        super();
+        this.logger = new Logger("log.log");
+    }
 
     static{
         client = null;
@@ -21,10 +31,22 @@ public class Client {
         return getClient()._getLogger();
     }
 
+    public void connect(String host, int port) throws InvalidArgumentException, IOException{
+        this.connection = new Connection(new Socket(host, port));
+    }
+
     public static Client getClient(){
         if(Client.client == null)
-            client = new Client();
+            try {
+                client = new Client();
+            }catch(IOException e){
+                JOptionPane.showMessageDialog(null, "Logging is disabled: "+e.getMessage());
+            }
         return Client.client;
+    }
+
+    public Connection getConnection(){
+        return this.connection;
     }
 
     private Logger _getLogger(){
