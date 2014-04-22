@@ -12,6 +12,7 @@ public class Client {
     private static Client client;
     private Logger logger;
     private Connection connection;
+    private RequestManager requestMan;
 
     private Client() throws IOException{
         super();
@@ -33,6 +34,7 @@ public class Client {
 
     public void connect(String host, int port) throws InvalidArgumentException, IOException{
         this.connection = new Connection(new Socket(host, port));
+        this.requestMan = new RequestManager(this.connection);
     }
 
     public static Client getClient(){
@@ -43,6 +45,10 @@ public class Client {
                 JOptionPane.showMessageDialog(null, "Logging is disabled: "+e.getMessage());
             }
         return Client.client;
+    }
+
+    public RequestManager getRequestManager(){
+        return this.requestMan;
     }
 
     public Connection getConnection(){
