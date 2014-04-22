@@ -51,6 +51,7 @@ public class DataManager extends Thread{
                                 FetchPacket packet = (FetchPacket)p;
                                 String name, notes, violations;
                                 UserViolationLevel vl;
+                                //TODO query db for information on player
                                 response = new DataResponsePacket();
                                 break;
                             default:
