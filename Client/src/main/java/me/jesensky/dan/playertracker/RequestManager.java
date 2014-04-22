@@ -40,7 +40,7 @@ public class RequestManager extends Thread {
                 }
             }
         } catch (IOException | InvalidPacketException e) {
-            //TODO log exception
+            Client.getLogger().error(e.getMessage());
         }
         super.run();
     }
