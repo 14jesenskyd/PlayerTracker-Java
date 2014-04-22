@@ -59,7 +59,7 @@ public class DataManager extends Thread{
                         response.sendData(c);
                     }
             }catch(IOException | InvalidPacketException e){
-                //TODO log exception
+                Server.getLogger().error(e.getMessage());
             }
         }
     }

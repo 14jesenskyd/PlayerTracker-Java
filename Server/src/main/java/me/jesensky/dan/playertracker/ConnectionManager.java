@@ -112,7 +112,7 @@ public class ConnectionManager extends Thread {
                 this.connections.put(sock.getInetAddress(), conn);
                 this.updateConnectionListeners(new ConnectionEvent(conn));
             } catch (IOException | InvalidArgumentException e) {
-                //TODO log exception
+                Server.getLogger().error(e.getMessage());
             }
         }
         super.run();

@@ -3,10 +3,10 @@ package me.jesensky.dan.playertracker;
 import me.jesensky.dan.playertracker.forms.ServerGUI;
 import me.jesensky.dan.playertracker.net.Connection;
 import me.jesensky.dan.playertracker.util.DatabaseManager;
+import me.jesensky.dan.playertracker.util.Logger;
 
-import javax.xml.crypto.Data;
-import javax.xml.transform.Result;
-import java.beans.Statement;
+import javax.swing.*;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,6 +17,7 @@ public class Server {
     private static Server singletonInstance;
     private ConnectionManager connectionManager;
     private DatabaseManager dbMan;
+    private Logger log;
 
     static {
         singletonInstance = null;
@@ -24,42 +25,57 @@ public class Server {
 
     private Server() {
         super();
-        this.connectionManager = new ConnectionManager();
-        this.connectionManager.start();
-        this.loadConfiguration();
         try {
-            //TODO replace hard-coded test data with actual configuration
+            this.log = new Logger("log.log");
+            this.connectionManager = new ConnectionManager();
+            this.connectionManager.start();
+            this.loadConfiguration();
+            try {
+                //TODO replace hard-coded test data with actual configuration
 
-            this.dbMan = new DatabaseManager("::1", 1533, "root", "root", "playertracker_test");
-            this.dbMan.connect();
+                this.dbMan = new DatabaseManager("::1", 1533, "root", "root", "playertracker_test");
+                this.dbMan.connect();
 
-            ResultSet r;
-            PreparedStatement s = this.dbMan.prepareStatement("SELECT * FROM information_schema.tables WHERE table_schema = 'playertracker' AND table_name = 'players' LIMIT 1;");
-            s.execute();
-            s.close();
-            r = s.getResultSet();
-            if(!r.first()){
-                //TODO create table
+                ResultSet r;
+                PreparedStatement s = this.dbMan.prepareStatement("SELECT * FROM information_schema.tables WHERE table_schema = 'playertracker' AND table_name = 'players' LIMIT 1;");
+                s.execute();
+                s.close();
+                r = s.getResultSet();
+                if (!r.first()) {
+                    //TODO create table
+                }
+                s.close();
+                r.close();
+
+                s = this.dbMan.prepareStatement("SELECT * FROM information_schema.tables WHERE table_schema = 'playertracker' AND table_name = 'users' LIMIT 1;");
+                s.execute();
+                s.close();
+                r = s.getResultSet();
+                if (!r.first()) {
+                    //TODO create table
+                }
+                s.close();
+                r.close();
+            } catch (SQLException e) {
+                this.log.error(e.getMessage());
             }
-            r.close();
-
-            s = this.dbMan.prepareStatement("SELECT * FROM information_schema.tables WHERE table_schema = 'playertracker' AND table_name = 'users' LIMIT 1;");
-            s.execute();
-            s.close();
-            r = s.getResultSet();
-            if(!r.first()){
-                //TODO create table
-            }
-            r.close();
-        }catch(SQLException e){
-            //TODO log exception
+        }catch(IOException e){
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }
 
+    private Logger _getLogger(){
+        return this.log;
+    }
+
+    public static Logger getLogger(){
+        return Server.getSingleton()._getLogger();
+    }
+
     public static Server getSingleton() {
-        if (singletonInstance == null)
-            singletonInstance = new Server();
-        return singletonInstance;
+        if (Server.singletonInstance == null)
+            Server.singletonInstance = new Server();
+        return Server.singletonInstance;
     }
 
     public ConnectionManager getConnectionManager() {

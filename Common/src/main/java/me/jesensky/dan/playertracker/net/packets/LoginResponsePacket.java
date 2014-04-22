@@ -14,7 +14,7 @@ public class LoginResponsePacket extends Packet {
     }
 
     public LoginResponsePacket(LoginResponse response, String uuid) throws InvalidPacketException{
-        super(PacketType.LOGIN_RESPONSE, getBytes(response, uuid));
+        this(getBytes(response, uuid));
     }
 
     public LoginResponsePacket(byte... bytes) throws InvalidPacketException{
