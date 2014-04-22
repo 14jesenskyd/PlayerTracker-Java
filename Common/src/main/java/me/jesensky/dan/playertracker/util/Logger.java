@@ -9,7 +9,7 @@ import java.util.logging.Level;
 public class Logger {
     private FileWriter log;
     private String filename;
-    private final String TIME_FORMAT = "hh:mm:ss p";
+    private final String TIME_FORMAT = "hh:mm:ss a";
 
     public Logger(String filename) throws IOException{
         super();
