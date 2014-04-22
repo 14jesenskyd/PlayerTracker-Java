@@ -52,7 +52,7 @@ public class ServerGUI extends JFrame {
     }
 
     public void setConnections(int amount) {
-        String f = String.format("%,.0d", amount);
+        String f = String.format("%,d", amount);
         this.lblConnections.setText(f);
         this.lblConnections.setSize(this.metrics.stringWidth(f) + 6, this.lblConnections.getHeight());
         this.btnShowAllConnections.setLocation(this.lblConnections.getX() + this.lblConnections.getWidth(), this.lblConnections.getY());

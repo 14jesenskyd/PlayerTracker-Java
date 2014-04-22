@@ -109,4 +109,14 @@ public class Packet {
         }
         return NetUtils.byteListToArray(r);
     }
+
+    public boolean hasDataSection(int section){
+        try{
+            this.getDataSection(section);
+        }catch(Exception e){
+            //ignore exception
+            return false;
+        }
+        return true;
+    }
 }

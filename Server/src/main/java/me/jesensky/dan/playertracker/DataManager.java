@@ -37,31 +37,32 @@ public class DataManager extends Thread{
 
     @Override
     public void run(){
-        for(Connection c : Server.getSingleton().getConnectionManager().getConnections().values()){
-            try {
-                    if (c.dataRemaining()) {
-                        Packet p = c.readData();
-                        Packet response = null;
+        while(true)
+            for(Connection c : Server.getSingleton().getConnectionManager().getConnections().values()){
+                try {
+                        if (c.dataRemaining()) {
+                            Packet p = c.readData();
+                            Packet response = null;
 
-                        switch(p.getType()){
-                            case LOGIN:
-                                response = new LoginResponsePacket((byte)3);
-                                break;
-                            case FETCH_DATA:
-                                FetchPacket packet = (FetchPacket)p;
-                                String name, notes, violations;
-                                UserViolationLevel vl;
-                                //TODO query db for information on player
-                                response = new DataResponsePacket();
-                                break;
-                            default:
-                                continue;
+                            switch(p.getType()){
+                                case LOGIN:
+                                    response = new LoginResponsePacket((byte)3);
+                                    break;
+                                case FETCH_DATA:
+                                    FetchPacket packet = (FetchPacket)p;
+                                    String name, notes, violations;
+                                    UserViolationLevel vl;
+                                    //TODO query db for information on player
+                                    response = new DataResponsePacket();
+                                    break;
+                                default:
+                                    continue;
+                            }
+                            response.sendData(c);
                         }
-                        response.sendData(c);
-                    }
-            }catch(IOException | InvalidPacketException e){
-                Server.getLogger().error(e.getMessage());
+                }catch(IOException | InvalidPacketException e){
+                    Server.getLogger().error(e.getMessage());
+                }
             }
-        }
     }
 }

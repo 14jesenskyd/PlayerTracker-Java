@@ -18,6 +18,7 @@ public class Server {
     private ConnectionManager connectionManager;
     private DatabaseManager dbMan;
     private Logger log;
+    private DataManager dataMan;
 
     static {
         singletonInstance = null;
@@ -27,13 +28,15 @@ public class Server {
         super();
         try {
             this.log = new Logger("log.log");
-            this.connectionManager = new ConnectionManager();
+            this.connectionManager = new ConnectionManager(1534);
             this.connectionManager.start();
+            this.dataMan = new DataManager();
+            this.dataMan.start();
             this.loadConfiguration();
             try {
                 //TODO replace hard-coded test data with actual configuration
 
-                this.dbMan = new DatabaseManager("::1", 1533, "root", "root", "playertracker_test");
+                this.dbMan = new DatabaseManager("::1", 3306, "root", "root", "playertracker_test");
                 this.dbMan.connect();
 
                 ResultSet r;
