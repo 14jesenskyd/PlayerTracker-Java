@@ -4,6 +4,8 @@ import me.jesensky.dan.playertracker.Server;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 public class ServerGUI extends JFrame {
     private JLabel lblConnections;
@@ -47,6 +49,31 @@ public class ServerGUI extends JFrame {
                 super.add(new ConnectionListGUI());
         });
         super.getContentPane().add(this.btnShowAllConnections);
+
+        super.addWindowListener(new WindowListener() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                Server.getSingleton().getConnectionManager().closeConnections();
+            }
+            @Override
+            public void windowOpened(WindowEvent e) {
+            }
+            @Override
+            public void windowClosing(WindowEvent e) {
+            }
+            @Override
+            public void windowIconified(WindowEvent e) {
+            }
+            @Override
+            public void windowDeiconified(WindowEvent e) {
+            }
+            @Override
+            public void windowActivated(WindowEvent e) {
+            }
+            @Override
+            public void windowDeactivated(WindowEvent e) {
+            }
+        });
 
         super.setVisible(true);
     }

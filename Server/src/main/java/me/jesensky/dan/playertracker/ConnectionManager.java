@@ -137,6 +137,17 @@ public class ConnectionManager extends Thread {
         }
     }
 
+    public void closeConnections(){
+        for(Connection connection : this.getConnections().values())
+            if(connection != null && !connection.isClosed())
+                try {
+                    connection.close();
+                    this.getConnections().remove(connection.getAddress());
+                }catch(IOException e){
+                    //ignore, likely already closed
+                }
+    }
+
     /**
      * {@inheritDoc}
      */
