@@ -28,7 +28,7 @@ public class Server {
         super();
         try {
             this.log = new Logger("log.log");
-            this.connectionManager = new ConnectionManager(1);
+            this.connectionManager = new ConnectionManager(1534);
             this.connectionManager.start();
             this.dataMan = new DataManager();
             this.dataMan.start();
