@@ -8,6 +8,8 @@ import me.jesensky.dan.playertracker.net.packets.LoginPacket;
 import me.jesensky.dan.playertracker.net.packets.LoginResponsePacket;
 
 import javax.swing.*;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.IOException;
 
 public class ClientUI extends JFrame{
@@ -75,6 +77,41 @@ public class ClientUI extends JFrame{
         exit.addActionListener((e) -> System.exit(0));
         super.getContentPane().add(exit);
 
+        super.addWindowListener(new WindowListener() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                if(Client.getClient().getConnection() != null && !Client.getClient().getConnection().isClosed())
+                try {
+                    Client.getClient().getConnection().close();
+                }catch(IOException ex){
+                    //ignore, probably already closed
+                }
+            }
+
+            @Override
+            public void windowOpened(WindowEvent e) {
+            }
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+            }
+
+            @Override
+            public void windowIconified(WindowEvent e) {
+            }
+
+            @Override
+            public void windowDeiconified(WindowEvent e) {
+            }
+
+            @Override
+            public void windowActivated(WindowEvent e) {
+            }
+
+            @Override
+            public void windowDeactivated(WindowEvent e) {
+            }
+        });
         super.setResizable(false);
         super.setVisible(true);
     }

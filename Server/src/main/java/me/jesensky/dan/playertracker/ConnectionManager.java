@@ -31,7 +31,8 @@ public class ConnectionManager extends Thread {
      */
     public ConnectionManager(int port) throws IOException{
         super();
-        this.socket = new ServerSocket(port);
+        this.socket = new ServerSocket();
+        this.socket.bind(new InetSocketAddress("localhost", 1534));
         this.connections = new HashMap<>();
         this.listeners = new ArrayList<ConnectionListener>();
         this.accepting = true;

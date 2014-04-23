@@ -3,6 +3,7 @@ package me.jesensky.dan.playertracker.util;
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
@@ -24,13 +25,18 @@ public class DatabaseManager {
     }
 
     public void connect() throws SQLException{
-        MysqlDataSource d = new MysqlDataSource();
-        d.setUser(this.username);
-        d.setPassword(this.password);
-        d.setServerName(this.host);
-        d.setPort(this.port);
-        d.setDatabaseName(this.db);
-        this.connection = d.getConnection();
+        //jdbc:mysql://[host][:port]/[database]
+//        String c = "jdbc:mysql://"+this.host+":"+this.port+"/"+this.db+"?user="+this.username+"&password="+this.password+"&tcpKeepAlive=true&autoReconnect=true";
+        String c = "jdbc:mysql://localhost:3306/"+this.db;
+//        MysqlDataSource d = new MysqlDataSource();
+//        d.setConnectionCollation(c);
+        //d.setUser(this.username);
+        //d.setPassword(this.password);
+        //d.setServerName(this.host);
+        //d.setPort(this.port);
+        //d.setDatabaseName(this.db);
+//        this.connection = d.getConnection();
+        this.connection = DriverManager.getConnection(c, username,  password);
     }
 
     public PreparedStatement prepareStatement(String sql) throws SQLException{
