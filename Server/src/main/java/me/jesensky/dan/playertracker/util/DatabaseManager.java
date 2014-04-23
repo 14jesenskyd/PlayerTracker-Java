@@ -27,7 +27,7 @@ public class DatabaseManager {
     public void connect() throws SQLException{
         //jdbc:mysql://[host][:port]/[database]
 //        String c = "jdbc:mysql://"+this.host+":"+this.port+"/"+this.db+"?user="+this.username+"&password="+this.password+"&tcpKeepAlive=true&autoReconnect=true";
-        String c = "jdbc:mysql://localhost:3306/"+this.db;
+        String c = "jdbc:mysql://"+this.host+":"+this.port+"/"+this.db;
 //        MysqlDataSource d = new MysqlDataSource();
 //        d.setConnectionCollation(c);
         //d.setUser(this.username);
