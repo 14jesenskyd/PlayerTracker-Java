@@ -6,6 +6,7 @@ import me.jesensky.dan.playertracker.util.DatabaseManager;
 import me.jesensky.dan.playertracker.util.Logger;
 
 import javax.swing.*;
+import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.sql.PreparedStatement;
@@ -19,6 +20,7 @@ public class Server {
     private DatabaseManager dbMan;
     private Logger log;
     private DataManager dataMan;
+    private Configuration config;
 
     static {
         singletonInstance = null;
@@ -28,42 +30,38 @@ public class Server {
         super();
         try {
             this.log = new Logger("log.log");
-            this.connectionManager = new ConnectionManager(1534);
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+        try {
+            this.loadConfiguration("config");
             this.connectionManager.start();
+            this.dbMan.connect();
             this.dataMan = new DataManager();
             this.dataMan.start();
-            this.loadConfiguration();
-            try {
-                //TODO replace hard-coded test data with actual configuration
 
-                this.dbMan = new DatabaseManager("127.0.0.1", 3306, "root", "root", "playertracker_test");
-                this.dbMan.connect();
-
-                ResultSet r;
-                PreparedStatement s = this.dbMan.prepareStatement("SELECT * FROM information_schema.tables WHERE table_schema = 'playertracker' AND table_name = 'players' LIMIT 1;");
-                s.execute();
-                s.close();
-                r = s.getResultSet();
-                if (!r.first()) {
-                    //TODO create table
-                }
-                s.close();
-                r.close();
-
-                s = this.dbMan.prepareStatement("SELECT * FROM information_schema.tables WHERE table_schema = 'playertracker' AND table_name = 'users' LIMIT 1;");
-                s.execute();
-                s.close();
-                r = s.getResultSet();
-                if (!r.first()) {
-                    //TODO create table
-                }
-                s.close();
-                r.close();
-            } catch (SQLException e) {
-                this.log.error(e.getMessage());
+            ResultSet r;
+            PreparedStatement s = this.dbMan.prepareStatement("SELECT * FROM information_schema.tables WHERE table_schema = 'playertracker' AND table_name = 'players' LIMIT 1;");
+            s.execute();
+            s.close();
+            r = s.getResultSet();
+            if (!r.first()) {
+                //TODO create table
             }
-        }catch(IOException e){
-            JOptionPane.showMessageDialog(null, e.getMessage());
+            s.close();
+            r.close();
+
+            s = this.dbMan.prepareStatement("SELECT * FROM information_schema.tables WHERE table_schema = 'playertracker' AND table_name = 'users' LIMIT 1;");
+            s.execute();
+            s.close();
+            r = s.getResultSet();
+            if (!r.first()) {
+                //TODO create table
+            }
+            s.close();
+            r.close();
+        } catch (IOException | SQLException e) {
+            this.log.error(e.getMessage());
         }
     }
 
@@ -99,8 +97,13 @@ public class Server {
         return this.connectionManager.getConnections();
     }
 
-    private void loadConfiguration() {
-
+    private void loadConfiguration(String filename) throws IOException, SQLException {
+        if(new File(filename).exists())
+            this.config = Configuration.load(filename);
+        else
+            this.config = new Configuration();
+        this.connectionManager = new ConnectionManager(this.config.<String>getValue("hostname", "::1"), this.config.<Integer>getValue("port", 1534));
+        this.dbMan = new DatabaseManager(this.config.<String>getValue("db-hostname", "localhost"), this.config.<Integer>getValue("db-port", 3306), this.config.<String>getValue("db-user", "root"), this.config.<String>getValue("db-password", "root"), this.config.<String>getValue("db-database", "playertracker"));
     }
 
     @Override

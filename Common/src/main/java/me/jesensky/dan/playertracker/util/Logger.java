@@ -32,6 +32,7 @@ public class Logger {
     private void write(Level logLevel, String text){
         try {
             this.log.write(String.format("[%s][%s] %s", TimeUtils.getTime(this.TIME_FORMAT), logLevel.getName(), text));
+            this.log.flush();
         }catch(IOException e){
             //print to console -- there's not really much you can do about it
             System.err.println(e.getMessage());

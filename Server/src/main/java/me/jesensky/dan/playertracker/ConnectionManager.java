@@ -29,13 +29,20 @@ public class ConnectionManager extends Thread {
      * Given the purpose of the class, queries should be wary of
      * thread-safety with whatever actions they may perform.
      */
-    public ConnectionManager(int port) throws IOException{
+    public ConnectionManager(String host, int port) throws IOException {
         super();
-        this.socket = new ServerSocket();
-        this.socket.bind(new InetSocketAddress("localhost", port));
+        if(host != null) {
+            this.socket = new ServerSocket();
+            this.socket.bind(new InetSocketAddress(host, port));
+        }else
+            this.socket = new ServerSocket(port);
         this.connections = new HashMap<>();
         this.listeners = new ArrayList<ConnectionListener>();
         this.accepting = true;
+    }
+
+    public ConnectionManager(int port) throws IOException {
+        this(null, port);
     }
 
     /**
