@@ -45,7 +45,25 @@ public class Server {
             s.execute();
             r = s.getResultSet();
             if (!r.first()) {
-                //TODO create table
+                /*sql to create user table:
+                create table `"+this.dbMan.getDatabase()+"`.`users`(
+                    id int not null auto_increment,
+                    firstName text not null,
+                    lastName text not null,
+                    email text not null,
+                    username text not null,
+                    pass text not null,
+                    primary key(id)
+                );
+                 */
+                PreparedStatement statement = this.dbMan.prepareStatement("create table `"+this.dbMan.getDatabase()+"`.`users`(id int not null auto_increment, firstName text not null, lastName text not null, email text not null, username text not null, pass text not null, primary key(id));");
+                try{
+                    statement.execute();
+                }catch(SQLException ex){
+                    this.log.error(ex.getMessage());
+                }finally{
+                    statement.close();
+                }
             }
             s.close();
             r.close();
