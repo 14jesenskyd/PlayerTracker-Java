@@ -43,7 +43,6 @@ public class Server {
             ResultSet r;
             PreparedStatement s = this.dbMan.prepareStatement("SELECT * FROM information_schema.tables WHERE table_schema = 'playertracker' AND table_name = 'players' LIMIT 1;");
             s.execute();
-            s.close();
             r = s.getResultSet();
             if (!r.first()) {
                 //TODO create table
@@ -53,7 +52,6 @@ public class Server {
 
             s = this.dbMan.prepareStatement("SELECT * FROM information_schema.tables WHERE table_schema = 'playertracker' AND table_name = 'users' LIMIT 1;");
             s.execute();
-            s.close();
             r = s.getResultSet();
             if (!r.first()) {
                 //TODO create table
