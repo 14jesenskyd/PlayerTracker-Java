@@ -36,7 +36,7 @@ public class Server {
             try {
                 //TODO replace hard-coded test data with actual configuration
 
-                this.dbMan = new DatabaseManager("::1", 3306, "root", "root", "playertracker_test");
+                this.dbMan = new DatabaseManager("127.0.0.1", 3306, "root", "root", "playertracker_test");
                 this.dbMan.connect();
 
                 ResultSet r;
