@@ -37,6 +37,10 @@ public class DatabaseManager {
         this.connection = DriverManager.getConnection(c, username,  password);
     }
 
+    public String getDatabase(){
+        return this.db;
+    }
+
     public PreparedStatement prepareStatement(String sql) throws SQLException{
         return this.connection.prepareStatement(sql);
     }
