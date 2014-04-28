@@ -13,6 +13,10 @@ public class LoginResponsePacket extends Packet {
         this(response, "");
     }
 
+    public LoginResponsePacket(Packet p){
+        super(p);
+    }
+
     public LoginResponsePacket(LoginResponse response, String uuid) throws InvalidPacketException{
         this(getBytes(response, uuid));
     }

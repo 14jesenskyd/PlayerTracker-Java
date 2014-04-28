@@ -39,6 +39,11 @@ public class Packet {
         this.data = data;
     }
 
+    public Packet(final Packet copy){
+        this.data = copy.data;
+        this.type = copy.type;
+    }
+
     public PacketType getType() {
         return this.type;
     }

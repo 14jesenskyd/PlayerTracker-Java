@@ -44,13 +44,13 @@ public class ClientUI extends JFrame{
         logIn.addActionListener((e) -> {
             try {
                 //TODO remove hard-coded values, load from config
-                Client.getClient().connect("::1", 1534);
+                Client.getClient().connect("127.0.0.1", 1534);
                 Connection c = Client.getClient().getConnection();
                 LoginPacket packet = new LoginPacket(t.getText(), z.getText());
                 packet.sendData(c);
                 RequestManager req = Client.getClient().getRequestManager();
                 while(!req.hasResponse());
-                LoginResponsePacket x = ((LoginResponsePacket) req.getResponse());
+                LoginResponsePacket x = new LoginResponsePacket(req.getResponse());
                 switch(x.getResponse()){
                     case SUCCESS:
                         //TODO remove debug code

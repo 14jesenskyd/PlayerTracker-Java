@@ -35,6 +35,7 @@ public class Client {
     public void connect(String host, int port) throws InvalidArgumentException, IOException{
         this.connection = new Connection(new Socket(host, port));
         this.requestMan = new RequestManager(this.connection);
+        this.requestMan.start();
     }
 
     public static Client getClient(){

@@ -31,10 +31,10 @@ public class RequestManager extends Thread {
 
                 switch (p.getType()) {
                     case LOGIN_RESPONSE:
-                        this.responses.add((LoginResponsePacket)p);
+                        this.responses.add(p);
                         break;
                     case DATA_RESPONSE:
-                        this.responses.add((DataResponsePacket)p);
+                        this.responses.add(p);
                         break;
                     default:
                         break;
