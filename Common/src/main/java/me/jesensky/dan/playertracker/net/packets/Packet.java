@@ -115,6 +115,16 @@ public class Packet {
         return NetUtils.byteListToArray(r);
     }
 
+    /**
+     * Checks whether or not the {@code n}th {@code section}
+     * exists.<br />
+     * <br />
+     * A {@code section} is defined as a block of data bounded
+     * by a {@code byte} of {@code 0}.
+     *
+     * @param section The section of data to check if it exists.
+     * @return Whether or not the specified section exists.
+     */
     public boolean hasDataSection(int section){
         try{
             this.getDataSection(section);

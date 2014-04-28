@@ -7,6 +7,12 @@ import me.jesensky.dan.playertracker.net.NetUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * {@inheritDoc}
+ *
+ * {@code LoginResponsePacket} represents the response to
+ * a login request -- which can be either success or failure.
+ */
 public class LoginResponsePacket extends Packet {
 
     public LoginResponsePacket(LoginResponse response) throws InvalidPacketException{

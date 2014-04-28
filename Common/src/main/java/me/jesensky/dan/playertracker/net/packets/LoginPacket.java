@@ -7,6 +7,12 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * {@inheritDoc}
+ *
+ * {@code LoginPacket} represents a packet to log into the server
+ * for all other queries.
+ */
 public class LoginPacket extends Packet {
     public LoginPacket(String user, String pass) throws InvalidPacketException, UnsupportedEncodingException {
         super(PacketType.LOGIN, getBytesFromInformation(user, pass));
