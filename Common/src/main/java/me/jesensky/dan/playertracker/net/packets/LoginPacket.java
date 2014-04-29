@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  * {@inheritDoc}
- *
+ * <p>
  * {@code LoginPacket} represents a packet to log into the server
  * for all other queries.
  */
@@ -20,10 +20,10 @@ public class LoginPacket extends Packet {
 
     private static byte[] getBytesFromInformation(String user, String pass) throws UnsupportedEncodingException {
         List<Byte> b = new ArrayList<>();
-        for(Byte z : user.getBytes("UTF-8"))
+        for (Byte z : user.getBytes("UTF-8"))
             b.add(z);
-        b.add((byte)0x0);
-        for(Byte z : NetUtils.getMD5Hash(pass.getBytes("UTF-8")))
+        b.add((byte) 0x0);
+        for (Byte z : NetUtils.getMD5Hash(pass.getBytes("UTF-8")))
             b.add(z);
         return NetUtils.byteListToArray(b);
     }

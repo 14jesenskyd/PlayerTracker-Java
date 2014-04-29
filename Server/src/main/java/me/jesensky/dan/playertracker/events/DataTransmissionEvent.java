@@ -6,16 +6,16 @@ public class DataTransmissionEvent {
     private final byte[] data;
     private final Connection connection;
 
-    public DataTransmissionEvent(Connection connection, byte... data){
+    public DataTransmissionEvent(Connection connection, byte... data) {
         this.data = data;
         this.connection = connection;
     }
 
-    public Connection getConnection(){
+    public Connection getConnection() {
         return this.connection;
     }
 
-    public byte[] getData(){
+    public byte[] getData() {
         return this.data;
     }
 }

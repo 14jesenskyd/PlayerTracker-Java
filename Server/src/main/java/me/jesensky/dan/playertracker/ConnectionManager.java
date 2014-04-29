@@ -31,12 +31,12 @@ public class ConnectionManager extends Thread {
      */
     public ConnectionManager(String host, int port) throws IOException {
         super();
-        if(host != null) {
+        this.connections = new HashMap<>();
+        if (host != null) {
             this.socket = new ServerSocket();
             this.socket.bind(new InetSocketAddress(host, port));
-        }else
+        } else
             this.socket = new ServerSocket(port);
-        this.connections = new HashMap<>();
         this.listeners = new ArrayList<ConnectionListener>();
         this.accepting = true;
     }
@@ -145,13 +145,13 @@ public class ConnectionManager extends Thread {
         }
     }
 
-    public void closeConnections(){
-        for(Connection connection : this.getConnections().values())
-            if(connection != null && !connection.isClosed())
+    public void closeConnections() {
+        for (Connection connection : this.getConnections().values())
+            if (connection != null && !connection.isClosed())
                 try {
                     connection.close();
                     this.getConnections().remove(connection.getAddress());
-                }catch(IOException e){
+                } catch (IOException e) {
                     //ignore, likely already closed
                 }
     }

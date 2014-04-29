@@ -9,29 +9,40 @@ import java.util.List;
 
 /**
  * {@inheritDoc}
- *
+ * <p>
  * {@code LoginResponsePacket} represents the response to
  * a login request -- which can be either success or failure.
  */
 public class LoginResponsePacket extends Packet {
 
-    public LoginResponsePacket(LoginResponse response) throws InvalidPacketException{
+    public LoginResponsePacket(LoginResponse response) throws InvalidPacketException {
         this(response, "");
     }
 
-    public LoginResponsePacket(Packet p){
+    public LoginResponsePacket(Packet p) {
         super(p);
     }
 
-    public LoginResponsePacket(LoginResponse response, String uuid) throws InvalidPacketException{
+    public LoginResponsePacket(LoginResponse response, String uuid) throws InvalidPacketException {
         this(getBytes(response, uuid));
     }
 
-    public LoginResponsePacket(byte... bytes) throws InvalidPacketException{
+    public LoginResponsePacket(byte... bytes) throws InvalidPacketException {
         super(PacketType.LOGIN_RESPONSE, bytes);
     }
 
-    public String getUUID(){
+    private static byte[] getBytes(LoginResponse response, String uuid) {
+        List<Byte> bytes = new ArrayList<Byte>();
+
+        bytes.add(response.getResponse());
+        bytes.add((byte) 0x0);
+        for (byte b : NetUtils.stringToBytes(uuid))
+            bytes.add(b);
+
+        return NetUtils.byteListToArray(bytes);
+    }
+
+    public String getUUID() {
         return "";
     }
 
@@ -39,41 +50,29 @@ public class LoginResponsePacket extends Packet {
         return LoginResponse.getResponseFromByte(super.getAmmendedData()[3]);
     }
 
-    private static byte[] getBytes(LoginResponse response, String uuid) {
-        List<Byte> bytes = new ArrayList<Byte>();
+    public enum LoginResponse {
+        SUCCESS((byte) 0x1),
+        FAILURE((byte) 0x0);
+        private byte indicator;
 
-        bytes.add(response.getResponse());
-        bytes.add((byte)0x0);
-        for(byte b : NetUtils.stringToBytes(uuid))
-            bytes.add(b);
-
-        return NetUtils.byteListToArray(bytes);
-    }
-
-    public enum LoginResponse{
-        SUCCESS((byte)0x1),
-        FAILURE((byte)0x0);
-
-        LoginResponse(byte indicator){
+        LoginResponse(byte indicator) {
             this.indicator = indicator;
         }
 
-        public byte getResponse(){
-            return this.indicator;
-        }
-
         public static LoginResponse getResponseFromByte(byte b) throws InvalidArgumentException {
-            for(LoginResponse r : LoginResponse.values())
-                if(r.getResponse() == b)
+            for (LoginResponse r : LoginResponse.values())
+                if (r.getResponse() == b)
                     return r;
             throw new InvalidArgumentException("Given byte does not correspond to any login responses.");
         }
 
-        @Override
-        public String toString() {
-            return "LoginResponse@"+super.hashCode()+"["+super.toString()+"]";
+        public byte getResponse() {
+            return this.indicator;
         }
 
-        private byte indicator;
+        @Override
+        public String toString() {
+            return "LoginResponse@" + super.hashCode() + "[" + super.toString() + "]";
+        }
     }
 }

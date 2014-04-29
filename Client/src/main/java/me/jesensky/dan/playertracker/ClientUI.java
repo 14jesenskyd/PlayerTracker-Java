@@ -12,8 +12,8 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.IOException;
 
-public class ClientUI extends JFrame{
-    public ClientUI(){
+public class ClientUI extends JFrame {
+    public ClientUI() {
         super("Player Tracker");
         super.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         super.setLayout(null);
@@ -25,12 +25,12 @@ public class ClientUI extends JFrame{
 
         JTextField t = new JTextField();
         t.setSize(120, 15);
-        t.setLocation(l.getX()+l.getWidth(), l.getY());
+        t.setLocation(l.getX() + l.getWidth(), l.getY());
         super.getContentPane().add(t);
 
         JLabel p = new JLabel("Password:");
         p.setSize(l.getWidth(), l.getHeight());
-        p.setLocation(l.getX(), l.getY()+l.getHeight());
+        p.setLocation(l.getX(), l.getY() + l.getHeight());
         super.getContentPane().add(p);
 
         JTextField z = new JTextField();
@@ -39,7 +39,7 @@ public class ClientUI extends JFrame{
         super.getContentPane().add(z);
 
         JButton logIn = new JButton("Log in");
-        logIn.setLocation(p.getX(), p.getY()+p.getHeight()+3);
+        logIn.setLocation(p.getX(), p.getY() + p.getHeight() + 3);
         logIn.setSize(80, 16);
         logIn.addActionListener((e) -> {
             try {
@@ -49,20 +49,20 @@ public class ClientUI extends JFrame{
                 LoginPacket packet = new LoginPacket(t.getText(), z.getText());
                 packet.sendData(c);
                 RequestManager req = Client.getClient().getRequestManager();
-                while(!req.hasResponse());
+                while (!req.hasResponse()) ;
                 LoginResponsePacket x = new LoginResponsePacket(req.getResponse());
-                switch(x.getResponse()){
+                switch (x.getResponse()) {
                     case SUCCESS:
                         //TODO remove debug code
                         JOptionPane.showMessageDialog(null, "Login succeeded");
                         new SearchUI();
                         break;
                     case FAILURE:
-                        JOptionPane.showMessageDialog(this, "Login failed."+(x.hasDataSection(1) ? "\n\n"+ NetUtils.bytesToString(x.getDataSection(1)) : ""));
+                        JOptionPane.showMessageDialog(this, "Login failed." + (x.hasDataSection(1) ? "\n\n" + NetUtils.bytesToString(x.getDataSection(1)) : ""));
                         break;
                 }
 
-            }catch(IOException | InvalidArgumentException | InvalidPacketException ex){
+            } catch (IOException | InvalidArgumentException | InvalidPacketException ex) {
                 JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
@@ -80,12 +80,12 @@ public class ClientUI extends JFrame{
         super.addWindowListener(new WindowListener() {
             @Override
             public void windowClosed(WindowEvent e) {
-                if(Client.getClient().getConnection() != null && !Client.getClient().getConnection().isClosed())
-                try {
-                    Client.getClient().getConnection().close();
-                }catch(IOException ex){
-                    //ignore, probably already closed
-                }
+                if (Client.getClient().getConnection() != null && !Client.getClient().getConnection().isClosed())
+                    try {
+                        Client.getClient().getConnection().close();
+                    } catch (IOException ex) {
+                        //ignore, probably already closed
+                    }
             }
 
             @Override
@@ -117,7 +117,7 @@ public class ClientUI extends JFrame{
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return super.toString();
     }
 }

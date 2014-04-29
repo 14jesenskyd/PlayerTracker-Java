@@ -14,12 +14,12 @@ public class Client {
     private Connection connection;
     private RequestManager requestMan;
 
-    private Client() throws IOException{
+    private Client() throws IOException {
         super();
         this.logger = new Logger("log.log");
     }
 
-    static{
+    static {
         client = null;
     }
 
@@ -28,40 +28,40 @@ public class Client {
         ClientUI ui = new ClientUI();
     }
 
-    public static Logger getLogger(){
+    public static Logger getLogger() {
         return getClient()._getLogger();
     }
 
-    public void connect(String host, int port) throws InvalidArgumentException, IOException{
+    public static Client getClient() {
+        if (Client.client == null)
+            try {
+                client = new Client();
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(null, "Logging is disabled: " + e.getMessage());
+            }
+        return Client.client;
+    }
+
+    public void connect(String host, int port) throws InvalidArgumentException, IOException {
         this.connection = new Connection(new Socket(host, port));
         this.requestMan = new RequestManager(this.connection);
         this.requestMan.start();
     }
 
-    public static Client getClient(){
-        if(Client.client == null)
-            try {
-                client = new Client();
-            }catch(IOException e){
-                JOptionPane.showMessageDialog(null, "Logging is disabled: "+e.getMessage());
-            }
-        return Client.client;
-    }
-
-    public RequestManager getRequestManager(){
+    public RequestManager getRequestManager() {
         return this.requestMan;
     }
 
-    public Connection getConnection(){
+    public Connection getConnection() {
         return this.connection;
     }
 
-    private Logger _getLogger(){
+    private Logger _getLogger() {
         return this.logger;
     }
 
     @Override
-    public String toString(){
-        return "Client[connected="+this.connection.isClosed()+"]";
+    public String toString() {
+        return "Client[connected=" + this.connection.isClosed() + "]";
     }
 }

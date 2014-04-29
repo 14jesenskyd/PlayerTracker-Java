@@ -36,12 +36,14 @@ public class Server {
         try {
             this.loadConfiguration("config");
             this.connectionManager.start();
-            this.dbMan.connect();
             this.dataMan = new DataManager();
             this.dataMan.start();
+            //this.connectionManager = new ConnectionManager("127.0.0.1", 1534);
+            //this.dbMan = new DatabaseManager("127.0.0.1", 3306, "root", "root", "playertracker");
+            this.dbMan.connect();
 
             ResultSet r;
-            PreparedStatement s = this.dbMan.prepareStatement("SELECT * FROM information_schema.tables WHERE table_schema = 'playertracker' AND table_name = 'players' LIMIT 1;");
+            PreparedStatement s = this.dbMan.prepareStatement("SELECT * FROM information_schema.tables WHERE table_schema = 'playertracker' AND table_name = 'users' LIMIT 1;");
             s.execute();
             r = s.getResultSet();
             if (!r.first()) {
@@ -56,19 +58,19 @@ public class Server {
                     primary key(id)
                 );
                  */
-                PreparedStatement statement = this.dbMan.prepareStatement("create table `"+this.dbMan.getDatabase()+"`.`users`(id int not null auto_increment, firstName text not null, lastName text not null, email text not null, username text not null, pass text not null, primary key(id));");
-                try{
+                PreparedStatement statement = this.dbMan.prepareStatement("create table `" + this.dbMan.getDatabase() + "`.`users`(id int not null auto_increment, firstName text not null, lastName text not null, email text not null, username text not null, pass text not null, primary key(id));");
+                try {
                     statement.execute();
-                }catch(SQLException ex){
+                } catch (SQLException ex) {
                     this.log.error(ex.getMessage());
-                }finally{
+                } finally {
                     statement.close();
                 }
             }
             s.close();
             r.close();
 
-            s = this.dbMan.prepareStatement("SELECT * FROM information_schema.tables WHERE table_schema = 'playertracker' AND table_name = 'users' LIMIT 1;");
+            s = this.dbMan.prepareStatement("SELECT * FROM information_schema.tables WHERE table_schema = 'playertracker' AND table_name = 'players' LIMIT 1;");
             s.execute();
             r = s.getResultSet();
             if (!r.first()) {
@@ -81,11 +83,7 @@ public class Server {
         }
     }
 
-    private Logger _getLogger(){
-        return this.log;
-    }
-
-    public static Logger getLogger(){
+    public static Logger getLogger() {
         return Server.getSingleton()._getLogger();
     }
 
@@ -95,18 +93,22 @@ public class Server {
         return Server.singletonInstance;
     }
 
+    public static void main(String[] args) {
+        Server singleton = Server.getSingleton();
+        ServerGUI gui = new ServerGUI();
+        singleton.getConnectionManager().registerConnectionListener((evt) -> gui.setConnections(singleton.getConnectionManager().getConnections().size()));
+    }
+
+    private Logger _getLogger() {
+        return this.log;
+    }
+
     public ConnectionManager getConnectionManager() {
         return this.connectionManager;
     }
 
-    public DatabaseManager getDbManager(){
+    public DatabaseManager getDbManager() {
         return this.dbMan;
-    }
-
-    public static void main(String[] args) {
-        Server singleton = new Server();
-        ServerGUI gui = new ServerGUI();
-        singleton.getConnectionManager().registerConnectionListener((evt) -> gui.setConnections(singleton.getConnectionManager().getConnections().size()));
     }
 
     public HashMap<InetAddress, Connection> getConnections() {
@@ -114,12 +116,12 @@ public class Server {
     }
 
     private void loadConfiguration(String filename) throws IOException, SQLException {
-        if(new File(filename).exists())
+        if (new File(filename).exists())
             this.config = Configuration.load(filename);
         else
             this.config = new Configuration();
-        this.connectionManager = new ConnectionManager(this.config.<String>getValue("hostname", "::1"), this.config.<Integer>getValue("port", 1534));
-        this.dbMan = new DatabaseManager(this.config.<String>getValue("db-hostname", "localhost"), this.config.<Integer>getValue("db-port", 3306), this.config.<String>getValue("db-user", "root"), this.config.<String>getValue("db-password", "root"), this.config.<String>getValue("db-database", "playertracker"));
+        this.connectionManager = new ConnectionManager(this.config.<String>getValue("hostname", "127.0.0.1"), this.config.<Integer>getValue("port", 1534));
+        this.dbMan = new DatabaseManager(this.config.<String>getValue("db-hostname", "127.0.0.1"), this.config.<Integer>getValue("db-port", 3306), this.config.<String>getValue("db-user", "root"), this.config.<String>getValue("db-password", "root"), this.config.<String>getValue("db-database", "playertracker"));
     }
 
     @Override

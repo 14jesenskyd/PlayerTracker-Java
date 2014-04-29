@@ -7,7 +7,6 @@ import me.jesensky.dan.playertracker.net.NetUtils;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -39,7 +38,7 @@ public class Packet {
         this.data = data;
     }
 
-    public Packet(final Packet copy){
+    public Packet(final Packet copy) {
         this.data = copy.data;
         this.type = copy.type;
     }
@@ -85,28 +84,27 @@ public class Packet {
      *                {@code 0x0}, the beginning, end, or any
      *                combination thereof, depending on what data
      *                is stored.
-     *
      * @return The bytes between the endpoints of the specified
      * {@code section}.
      */
-    public byte[] getDataSection(int section){
+    public byte[] getDataSection(int section) {
         List<Byte> r = new ArrayList<Byte>();
         int iteration = 0, index = 0;
         boolean t = true;
 
-        while(t){
-            if(this.data[index] == 0)
+        while (t) {
+            if (this.data[index] == 0)
                 iteration++;
-            if(iteration == section){
-                if(section != 0)
+            if (iteration == section) {
+                if (section != 0)
                     index++;
-                while(t && index < this.data.length){
-                    if(this.data[index] == (byte)0x0){
+                while (t && index < this.data.length) {
+                    if (this.data[index] == (byte) 0x0) {
                         t = false;
-                    }else{
+                    } else {
                         r.add(this.data[index++]);
                     }
-                    if(this.data.length == index)
+                    if (this.data.length == index)
                         t = false;
                 }
             }
@@ -125,10 +123,10 @@ public class Packet {
      * @param section The section of data to check if it exists.
      * @return Whether or not the specified section exists.
      */
-    public boolean hasDataSection(int section){
-        try{
+    public boolean hasDataSection(int section) {
+        try {
             this.getDataSection(section);
-        }catch(Exception e){
+        } catch (Exception e) {
             //ignore exception
             return false;
         }

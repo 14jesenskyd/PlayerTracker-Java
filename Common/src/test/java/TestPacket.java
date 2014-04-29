@@ -29,15 +29,15 @@ public class TestPacket {
     }
 
     @Test
-    public void ensureNoBytesMatchDataSeparator() throws UnsupportedEncodingException{
+    public void ensureNoBytesMatchDataSeparator() throws UnsupportedEncodingException {
         byte[] bytes = "asdfghjkl;'zxcvbnm,./][poiuytrewq\\+_-=)0(9*&^%$#@!~`12345678{}|:\"<>? ".getBytes("UTF-8");
-        for(byte b : bytes)
-            if(b == 0)
+        for (byte b : bytes)
+            if (b == 0)
                 Assert.fail();
     }
 
     @Test
-    public void testDataSection() throws InvalidPacketException{
+    public void testDataSection() throws InvalidPacketException {
         Packet packet = new Packet(PacketType.LOGIN, new byte[]{0x2, 0x6, 0x0, 0x9, 0x4, 0x0, 0x5, 0x2, 0x3});
         Assert.assertArrayEquals(new byte[]{0x2, 0x6}, packet.getDataSection(0));
         Assert.assertArrayEquals(new byte[]{0x9, 0x4}, packet.getDataSection(1));

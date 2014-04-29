@@ -8,15 +8,11 @@ public enum PacketType {
     LOGIN(new byte[]{0x1, 0x0, 0x1}),
     LOGIN_RESPONSE(new byte[]{0x1, 0x0, 0x2}),
     FETCH_DATA(new byte[]{0x1, 0x0, 0x3}),
-    DATA_RESPONSE(new byte[]{0x1, 0x0, 0x4}),
-    ;
+    DATA_RESPONSE(new byte[]{0x1, 0x0, 0x4}),;
+    private byte[] header;
 
     PacketType(byte... data) {
         this.header = data;
-    }
-
-    public byte[] getHeader() {
-        return this.header;
     }
 
     public static PacketType getTypeFromHeader(byte... head) throws InvalidPacketException {
@@ -27,5 +23,7 @@ public enum PacketType {
         throw new InvalidPacketException("Header did not match any packet types.");
     }
 
-    private byte[] header;
+    public byte[] getHeader() {
+        return this.header;
+    }
 }

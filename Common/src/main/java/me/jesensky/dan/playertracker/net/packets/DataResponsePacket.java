@@ -10,11 +10,11 @@ import me.jesensky.dan.playertracker.net.NetUtils;
  * <br />
  * Contains, in specific order:
  * <ol>
- *     <li>Player name, with exact capitalization of the
- *     name stored in the database,</li>
- *     <li>Notes, if any,</li>
- *     <li>Infractions, if any; and finally,</li>
- *     <li>The user's violation level.</li>
+ * <li>Player name, with exact capitalization of the
+ * name stored in the database,</li>
+ * <li>Notes, if any,</li>
+ * <li>Infractions, if any; and finally,</li>
+ * <li>The user's violation level.</li>
  * </ol>
  * <br />
  * For easier access, one may use methods to access these
@@ -27,27 +27,27 @@ import me.jesensky.dan.playertracker.net.NetUtils;
  * @see #getViolations()
  * @see #getViolationLevel()
  */
-public class DataResponsePacket extends Packet{
-    public DataResponsePacket(byte... data) throws InvalidPacketException{
+public class DataResponsePacket extends Packet {
+    public DataResponsePacket(byte... data) throws InvalidPacketException {
         super(PacketType.DATA_RESPONSE, data);
     }
 
-    public String getName(){
+    public String getName() {
         return NetUtils.bytesToString(super.getDataSection(0));
     }
 
-    public String getNotes(){
+    public String getNotes() {
         return NetUtils.bytesToString(super.getDataSection(1));
     }
 
-    public String getViolations(){
+    public String getViolations() {
         return NetUtils.bytesToString(super.getDataSection(2));
     }
 
-    public UserViolationLevel getViolationLevel() throws InvalidPacketException{
+    public UserViolationLevel getViolationLevel() throws InvalidPacketException {
         try {
             return UserViolationLevel.getViolationLevelFromByte(super.getDataSection(3)[0]);
-        }catch(InvalidArgumentException e){
+        } catch (InvalidArgumentException e) {
             throw new InvalidPacketException(e.getMessage());
         }
     }

@@ -2,6 +2,6 @@ package me.jesensky.dan.playertracker;
 
 import javax.swing.*;
 
-public class SearchUI extends JFrame{
+public class SearchUI extends JFrame {
 
 }
